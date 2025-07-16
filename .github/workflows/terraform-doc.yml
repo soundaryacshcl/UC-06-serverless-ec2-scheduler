@@ -1,14 +1,3 @@
-name: Terraform Docs to docs.md
-
-on:
-  push:
-    paths:
-      - '**/*.tf'
-  workflow_dispatch:
-
-permissions:
-  contents: write
-
 jobs:
   generate-docs:
     runs-on: ubuntu-latest
@@ -17,7 +6,7 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Setup git safe directory (optional, but safe)
+      - name: Setup git safe directory
         run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
       - name: Generate terraform-docs into docs.md
@@ -26,6 +15,10 @@ jobs:
           working-dir: .
           output-file: docs.md
           output-method: replace
+
+      - name: Fix file permissions on docs.md
+        run: |
+          sudo chown -R $(id -u):$(id -g) docs.md
 
       - name: Commit docs.md if changed
         env:
