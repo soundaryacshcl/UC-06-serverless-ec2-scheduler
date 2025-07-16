@@ -81,7 +81,8 @@ jobs:
         run: terraform validate
 
       - name: Terraform Plan
-        run: terraform plan
+        run: terraform plan -out=tfplan.binary
+
 
       - name: Show Terraform Plan Summary
         if: github.event.inputs.action == 'apply'
