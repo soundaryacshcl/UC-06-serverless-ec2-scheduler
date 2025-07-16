@@ -1,49 +1,56 @@
-Overview 
+# EC2 Instance Scheduler
 
-Many companies don't need their EC2 instances running 24/7. This solution automates the process of starting instances at the beginning of the workday (8:00 AM) and stopping them at the end of the workday (5:00 PM), helping to optimize costs while ensuring resources are available when needed. 
+Many companies don't need their EC2 instances running 24/7. This solution automates the process of starting instances at the beginning of the workday (8:00 AM) and stopping them at the end of the workday (5:00 PM), helping to optimize costs while ensuring resources are available when needed.
 
-Architecture 
+---
 
-The solution uses the following AWS services: 
+## Architecture
 
-AWS Lambda: Executes the code to start and stop EC2 instances 
+This solution is built using:
 
-Amazon CloudWatch Events: Schedules Lambda functions based on cron expressions 
+- **AWS Lambda**  
+  Executes the code to start and stop EC2 instances.
 
-AWS IAM: Manages permissions for Lambda functions 
+- **Amazon CloudWatch Events**  
+  Schedules Lambda functions based on cron expressions.
 
-Amazon EC2: The target instances to be managed 
+- **AWS IAM**  
+  Manages least‑privilege permissions for the Lambda functions.
 
- 
+- **Amazon EC2**  
+  The target instances to be managed (tag‑based targeting).
 
-Features 
+---
 
-Fully serverless architecture with minimal operational overhead 
+## Features
 
-Tag-based instance targeting (only manages instances with specific tags) 
+- **Fully serverless**  
+  Minimal operational overhead.
 
-Configurable scheduling with CloudWatch Events 
+- **Tag‑based instance targeting**  
+  Only manages the instances with a specific tag (e.g. `Scheduler=true`).
 
-Secure IAM roles with least privilege permissions 
+- **Configurable scheduling**  
+  Start/stop times configurable via CloudWatch Events cron expressions.
 
-Comprehensive logging for monitoring and troubleshooting 
+- **Least‑privilege IAM roles**  
+  Only the necessary EC2 permissions granted to each Lambda function.
 
-Infrastructure as Code (IaC) with Terraform for consistent deployments 
+- **Comprehensive logging**  
+  Logs all start/stop operations for troubleshooting.
 
-CI/CD pipeline with GitHub Actions 
+- **Infrastructure as Code (IaC)**  
+  Terraform modules define all AWS resources for repeatable deployments.
 
- 
+- **CI/CD pipeline with GitHub Actions**  
+  Automates Terraform validation, planning, and apply.
 
-GitHub Actions CI/CD 
+---
 
-The repository includes a GitHub Actions workflow for CI/CD: 
+## Usage
 
-Runs on push pull requests to main branch 
-
-Validates Terraform configuration 
-
-Performs security scanning with tflint and Checkov 
-
-Creates a plan and comments on pull requests 
-
-Applies changes when merged to main 
+1. **Tag your instances**  
+   ```bash
+   aws ec2 create-tags \
+     --resources i-1234567890abcdef0 \
+     --tags Key=Scheduler,Value=true
