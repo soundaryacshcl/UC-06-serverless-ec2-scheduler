@@ -50,24 +50,13 @@ This solution is built using:
 ## Usage
 
 1. **Tag your instances**  
-   ```bash
-   aws ec2 create-tags \
-     --resources i-1234567890abcdef0 \
-     --tags Key=Scheduler,Value=true
+   
 
 2. **Deploy with Terraform**
-   ```bash
-  git clone https://github.com/your-org/ec2-instance-scheduler.git
-  cd ec2-instance-scheduler
-  terraform init
-  terraform plan -var="tag_key=Scheduler" -var="tag_value=true"
-  terraform apply -var="tag_key=Scheduler" -var="tag_value=true"
+   
   
 3. **Verify schedules**
-   In the AWS Console under CloudWatch → Rules, verify two rules:
-   start-instances-workday-8am
-   stop-instances-workday-5pm
+  
 
 4. **Check logs**
-    Lambda logs in CloudWatch Logs under /aws/lambda/<function-name>.
-
+    
