@@ -1,5 +1,5 @@
 output "start_lambda_function_name" {
-  value = module.lambda_start.this.function_name 
+  value = module.lambda_start.this.function_name
 }
 
 output "stop_lambda_function_name" {
