@@ -83,17 +83,15 @@ jobs:
       - name: Terraform Plan
         run: terraform plan -out=tfplan.binary
 
+      - name: Verify Plan File Exists
+        run: test -f tfplan.binary
 
       - name: Show Terraform Plan Summary
         if: github.event.inputs.action == 'apply'
         run: terraform show -no-color tfplan.binary
 
-
       - name: Terraform Apply (from saved plan)
         if: github.event.inputs.action == 'apply'
         run: terraform apply -auto-approve tfplan.binary
 
-      - name: Terraform Destroy
-        if: github.event.inputs.action == 'destroy'
-        run: terraform destroy -auto-approve
  
