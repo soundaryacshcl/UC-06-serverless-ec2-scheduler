@@ -1,0 +1,25 @@
+name: Terraform Docs Drift Check
+
+on:
+  pull_request:
+    paths:
+      - '**/*.tf'
+
+jobs:
+  check-docs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Install terraform-docs
+        run: |
+          curl -sSLo terraform-docs https://github.com/terraform-docs/terraform-docs/releases/latest/download/terraform-docs-linux-amd64
+          chmod +x terraform-docs
+          sudo mv terraform-docs /usr/local/bin/
+
+      - name: Check README.md up-to-date
+        run: |
+          terraform-docs markdown . > temp-readme.md
+          diff temp-readme.md README.md || (echo "❌ README.md is out of sync. Please regenerate using terraform-docs." && exit 1)
