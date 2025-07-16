@@ -14,7 +14,7 @@ module "lambda_stop" {
   lambda_zip     = data.archive_file.lambda_zip.output_path
   function_name  = "ec2-stop-lambda"
   handler        = "ec2_control.lambda_handler"
-  role_arn       = module.iam.role_arn 
+  role_arn       = module.iam.role_arn
   instance_ids   = var.ec2_instance_ids
   ec2_action     = "stop"
 }
