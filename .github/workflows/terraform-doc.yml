@@ -17,15 +17,12 @@ jobs:
       - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Install terraform-docs
-        run: |
-          curl -sSLo terraform-docs.zip https://github.com/terraform-docs/terraform-docs/releases/latest/download/terraform-docs-linux-amd64.zip
-          unzip terraform-docs.zip
-          chmod +x terraform-docs
-          sudo mv terraform-docs /usr/local/bin/
-
-      - name: Generate README.md from Terraform module
-        run: terraform-docs markdown . > README.md
+      - name: Generate terraform docs (inject into README.md)
+        uses: terraform-docs/gh-actions@v1.1.0
+        with:
+          working-dir: .
+          output-file: README.md
+          output-method: inject
 
       - name: Commit README.md if changed
         run: |
