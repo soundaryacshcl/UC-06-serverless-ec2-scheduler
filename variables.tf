@@ -1,7 +1,7 @@
 variable "ec2_instance_ids" {
   description = "EC2 instance IDs"
   type        = string
-  default     = "i-080fbb2b0a5d6e3fd"
+  default     = "i-099fa6a9f9f69ced2"
 }
 
 variable "aws_region" {
